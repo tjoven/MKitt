@@ -106,7 +106,7 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
     @Override
     public Observable getObservable(Retrofit retrofit) {
         ApiService api = retrofit.create(ApiService.class);
-        return api.getJSONResult(getUrlAction());
+        return api.getJSONResult(getUrlAction(),getUrlParam(),getHeaders());
     }
 
     @Override
