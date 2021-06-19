@@ -96,6 +96,7 @@ public class HttpServiceImpl implements HttpService {
                         if (compositeDisposable == null) {
                             return;
                         }
+                        compositeDisposable.clear();
                     }
 
                     @Override
