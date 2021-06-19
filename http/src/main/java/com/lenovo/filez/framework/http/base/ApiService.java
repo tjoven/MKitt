@@ -7,6 +7,7 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -24,7 +25,10 @@ import retrofit2.http.QueryMap;
 public interface ApiService<T> {
 
     @GET("{url}")
-    Observable<JSONObject> getJSONResult(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, String> params, @HeaderMap Map<String, String> headers);
+    Call<JSONObject> getData(@Path("url") String url, @QueryMap Map<String, String> params);
+
+    @GET("{url}")
+    Observable<JSONObject> getJSONResult(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, String> params);
 
     @POST("{url}")
     @FormUrlEncoded

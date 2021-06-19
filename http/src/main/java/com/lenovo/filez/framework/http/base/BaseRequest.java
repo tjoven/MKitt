@@ -3,6 +3,7 @@ package com.lenovo.filez.framework.http.base;
 import android.content.Context;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lenovo.filez.framework.http.HttpListener;
 import com.lenovo.filez.framework.http.HttpRequest;
@@ -76,6 +77,7 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
      */
     public abstract String getUrlAction();
 
+    protected abstract Map<String, Object> getUrlParam();
 
     /**
      * 取得context
@@ -106,7 +108,7 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
     @Override
     public Observable getObservable(Retrofit retrofit) {
         ApiService api = retrofit.create(ApiService.class);
-        return api.getJSONResult(getUrlAction(),getUrlParam(),getHeaders());
+        return api.getJSONResult(getUrlAction(),getUrlParam());
     }
 
     @Override
@@ -148,11 +150,7 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
     }
 
 
-    protected Map<String, Object> getUrlParam() {
-        HashMap<String, Object> params = new HashMap<>();
-        String postString = getPostParamString();
-        return params;
-    }
+
 
     /**
      * 获取token（用于放重复提交）
@@ -208,13 +206,14 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
     @Override
     public void onRequestResult(JSONObject result) {
         if (FilezConfig.IS_DEBUG) {
-            Log.i(TAG, "response (with urlAction : " + getUrlAction() + "): " + result.toJSONString());
+            Log.d(TAG, "response (with urlAction : " + getUrlAction() + "): " + result.toJSONString());
         }
         try {
             if (isCheckJson()) {
                 if (checkJson(result)) {
                     if (mCallBack != null) {
-                        mCallBack.onRsp(true, result.getObject("content", mCallBack.getType()));
+                        mCallBack.onRsp(true, JSON.parseObject(result.toJSONString(),mCallBack.getType()));
+//                        mCallBack.onRsp(true, result.getObject("data", mCallBack.getType()));
                     }
                 } else {
                     if (mCallBack != null) {

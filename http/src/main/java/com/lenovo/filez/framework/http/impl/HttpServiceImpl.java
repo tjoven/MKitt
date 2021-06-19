@@ -3,11 +3,13 @@ package com.lenovo.filez.framework.http.impl;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lenovo.filez.framework.http.HttpConfig;
 import com.lenovo.filez.framework.http.HttpListener;
 import com.lenovo.filez.framework.http.HttpRequest;
 import com.lenovo.filez.framework.http.HttpRequestProxy;
 import com.lenovo.filez.framework.http.HttpService;
+import com.lenovo.filez.framework.http.base.ApiService;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,7 +31,7 @@ import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.lenovo.filez.framework.http.HttpServiceProvider.TAG;
@@ -55,12 +57,13 @@ public class HttpServiceImpl implements HttpService {
     private Retrofit getRetrofit(HttpRequest request) {
         String baseURL = request.getBaseURL();
         Retrofit retrofit = mCachedRetrofit.get(baseURL);
+        Log.i(TAG,"getRetrofit");
         if (retrofit == null) {
             Log.i(TAG,"new retrofit");
             retrofit = new Retrofit.Builder()
                     .client(okHttpConfig().build())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .baseUrl(baseURL)
                     .build();
             mCachedRetrofit.put(baseURL, retrofit);
@@ -76,10 +79,10 @@ public class HttpServiceImpl implements HttpService {
         }
         Retrofit retrofit = getRetrofit(request);
         //noinspection unchecked
-        request.getObservable(retrofit)
-                .doOnSubscribe(new Consumer() {
+        request.getObservable(retrofit).doOnSubscribe(new Consumer() {
                     @Override
                     public void accept(Object o)  {
+                        Log.d(TAG,"accept");
                         listener.onRequestStart();
                     }
                 })
@@ -104,6 +107,7 @@ public class HttpServiceImpl implements HttpService {
 
                     @Override
                     public void onNext(T o) {
+                        Log.d(TAG,"onNext: ");
                         listener.onRequestResult(o);
                     }
 
