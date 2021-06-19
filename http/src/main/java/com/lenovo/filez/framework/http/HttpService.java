@@ -1,7 +1,5 @@
 package com.lenovo.filez.framework.http;
 
-import io.reactivex.Observable;
-
 /**
  * HTTP请求服务类，用来发送/取消HttpRequest
  * HttpService一般是由HttpServiceProvider创建生成
@@ -25,5 +23,10 @@ public interface HttpService {
      * 取消全部请求
      */
     void cancelAll();
+
+    enum HTTPTYPE{
+        GET,
+        POST;
+    }
 
 }

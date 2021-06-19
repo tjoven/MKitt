@@ -2,6 +2,7 @@ package com.example.mkitt.http;
 
 import android.content.Context;
 
+import com.lenovo.filez.framework.http.HttpService;
 import com.lenovo.filez.framework.http.base.BaseRequest;
 import com.lenovo.filez.framework.http.base.RspListener;
 
@@ -20,6 +21,11 @@ public class TestRequest extends BaseRequest {
     @Override
     public String getUrlAction() {
         return "query";
+    }
+
+    @Override
+    public HttpService.HTTPTYPE getHttpType() {
+        return HttpService.HTTPTYPE.GET;
     }
 
     @Override

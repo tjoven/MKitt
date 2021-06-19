@@ -15,7 +15,6 @@ import com.lenovo.filez.framework.http.HttpServiceProvider;
  */
 public class ApiHelper {
 
-    private static final int HTTP_TIMEOUT_SEC = 30;
     private static volatile HttpService sHttpService;
 
     private ApiHelper() {
@@ -27,8 +26,6 @@ public class ApiHelper {
             synchronized (ApiHelper.class) {
                 if (sHttpService == null) {
                     HttpConfig config = new HttpConfig();
-                    config.setTimeout(HTTP_TIMEOUT_SEC);
-                    config.setReadTimeout(HTTP_TIMEOUT_SEC);
                     sHttpService = HttpServiceProvider.createHttpService(config);
                 }
             }

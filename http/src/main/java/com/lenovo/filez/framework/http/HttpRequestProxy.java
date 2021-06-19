@@ -1,12 +1,5 @@
 package com.lenovo.filez.framework.http;
 
-import android.text.TextUtils;
-import android.util.Log;
-
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
 
@@ -31,6 +24,14 @@ public class HttpRequestProxy implements HttpRequest {
     public String getBaseURL() {
         if(orgRequest != null){
             return orgRequest.getBaseURL();
+        }
+        return null;
+    }
+
+    @Override
+    public HttpService.HTTPTYPE getHttpType() {
+        if(orgRequest != null){
+            return orgRequest.getHttpType();
         }
         return null;
     }

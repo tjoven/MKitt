@@ -1,6 +1,4 @@
 package com.lenovo.filez.framework.http;
-
-
 import com.lenovo.filez.framework.http.impl.HttpServiceImpl;
 
 /**
@@ -8,7 +6,7 @@ import com.lenovo.filez.framework.http.impl.HttpServiceImpl;
  */
 public class HttpServiceProvider {
 
-    public static final String TAG = "Http";
+    public static final String TAG = "HTTP_SERVICE";
     /**
      * 私有构造方法，禁止创建对象
      */

@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lenovo.filez.framework.http.HttpListener;
 import com.lenovo.filez.framework.http.HttpRequest;
+import com.lenovo.filez.framework.http.HttpService;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -33,7 +34,6 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
     protected transient WeakReference<Context> mContext;
     protected transient HashMap<String, Object> mParams;
     protected transient RspListener mCallBack;
-    private transient boolean showLoading = true;
 
     public BaseRequest(Context context) {
         this.mContext = new WeakReference<>(context);
@@ -77,6 +77,12 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
      */
     public abstract String getUrlAction();
 
+    /**
+     * http 请求类型
+     * @return
+     */
+    public abstract HttpService.HTTPTYPE getHttpType();
+
     protected abstract Map<String, Object> getUrlParam();
 
     /**
@@ -97,18 +103,15 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
         return true;
     }
 
-    public boolean isShowLoading() {
-        return showLoading;
-    }
-
-    public void setShowLoading(boolean isShowLoading) {
-        this.showLoading = isShowLoading;
-    }
-
     @Override
     public Observable getObservable(Retrofit retrofit) {
         ApiService api = retrofit.create(ApiService.class);
-        return api.getJSONResult(getUrlAction(),getUrlParam());
+        if(getHttpType() == HttpService.HTTPTYPE.GET){
+            return api.getJSONResultForGET(getUrlAction(),getUrlParam());
+        }else if(getHttpType() == HttpService.HTTPTYPE.POST){
+            return api.getJSONResultForPOST(getUrlAction(),getUrlParam());
+        }
+        return null;
     }
 
     @Override

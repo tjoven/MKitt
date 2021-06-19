@@ -23,6 +23,8 @@ public interface HttpRequest {
      */
     String getBaseURL();
 
+    HttpService.HTTPTYPE getHttpType();
+
     /**
      * 返回失败重试次数
      * @return 失败重试次数

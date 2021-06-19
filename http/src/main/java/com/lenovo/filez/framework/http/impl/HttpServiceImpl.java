@@ -1,19 +1,13 @@
 package com.lenovo.filez.framework.http.impl;
 
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lenovo.filez.framework.http.HttpConfig;
 import com.lenovo.filez.framework.http.HttpListener;
 import com.lenovo.filez.framework.http.HttpRequest;
 import com.lenovo.filez.framework.http.HttpRequestProxy;
 import com.lenovo.filez.framework.http.HttpService;
-import com.lenovo.filez.framework.http.base.ApiService;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -37,52 +30,32 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.lenovo.filez.framework.http.HttpServiceProvider.TAG;
 
 /**
- * Created by lianbin.xu@ucarinc.com on 2017/12/8.
- *
+ * @author tjoven
  */
-
 public class HttpServiceImpl implements HttpService {
-
 
     private HttpConfig config;
     private ConcurrentHashMap<Object, CompositeDisposable> mapping = new ConcurrentHashMap<>();
-    private ConnectionPool pool = new ConnectionPool();
     private HashMap<String, Retrofit> mCachedRetrofit = new HashMap<>();
 
     public HttpServiceImpl(HttpConfig config) {
         this.config = config;
     }
 
-    @NonNull
-    private Retrofit getRetrofit(HttpRequest request) {
-        String baseURL = request.getBaseURL();
-        Retrofit retrofit = mCachedRetrofit.get(baseURL);
-        Log.i(TAG,"getRetrofit");
-        if (retrofit == null) {
-            Log.i(TAG,"new retrofit");
-            retrofit = new Retrofit.Builder()
-                    .client(okHttpConfig().build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .baseUrl(baseURL)
-                    .build();
-            mCachedRetrofit.put(baseURL, retrofit);
-        }
-        return retrofit;
-    }
-
     @Override
     public <T> void sendRequest(HttpRequest orgRequest, final HttpListener<T> listener) {
         final HttpRequest request = httpRequestIntercept(orgRequest);
-        if (request == null) {
+        Retrofit retrofit = getRetrofit(request);
+
+        Observable observable = request.getObservable(retrofit);
+        if(observable == null){
             return;
         }
-        Retrofit retrofit = getRetrofit(request);
         //noinspection unchecked
-        request.getObservable(retrofit).doOnSubscribe(new Consumer() {
+        observable.doOnSubscribe(new Consumer() {
                     @Override
                     public void accept(Object o)  {
-                        Log.d(TAG,"accept");
+                        Log.d(TAG,"accept Thread: "+Thread.currentThread().getName());
                         listener.onRequestStart();
                     }
                 })
@@ -91,7 +64,7 @@ public class HttpServiceImpl implements HttpService {
                 .subscribe(new Observer<T>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        Log.d(TAG,"onSubscribe");
+                        Log.d(TAG,"onSubscribe Thread: "+Thread.currentThread().getName());
                         Object tag = request.getTag();
                         if (tag == null) {
                             return;
@@ -107,7 +80,7 @@ public class HttpServiceImpl implements HttpService {
 
                     @Override
                     public void onNext(T o) {
-                        Log.d(TAG,"onNext: ");
+                        Log.d(TAG,"onNext Thread: "+Thread.currentThread().getName());
                         listener.onRequestResult(o);
                     }
 
@@ -151,9 +124,25 @@ public class HttpServiceImpl implements HttpService {
         }
     }
 
+    private Retrofit getRetrofit(HttpRequest request) {
+        String baseURL = request.getBaseURL();
+        Retrofit retrofit = mCachedRetrofit.get(baseURL);
+        if (retrofit == null) {
+            Log.d(TAG,"new retrofit");
+            retrofit = new Retrofit.Builder()
+                    .client(okHttpConfig().build())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(baseURL)
+                    .build();
+            mCachedRetrofit.put(baseURL, retrofit);
+        }
+        return retrofit;
+    }
+
     private OkHttpClient.Builder okHttpConfig() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .connectTimeout(config.getTimeout(), TimeUnit.SECONDS).connectionPool(this.pool);
+                .connectTimeout(config.getTimeout(), TimeUnit.SECONDS);
         // .addInterceptor(new ResposeStatusInterceptor());//配置错误码拦截操作，如非2XX code直接抛出异常
 
         if (config.isDebug()) {

@@ -9,7 +9,7 @@ public class HttpConfig {
      * 是否debug模式
      * 如果为true，则会打印http请求和响应的数据
      */
-    private boolean debug;
+    private boolean debug = true;
     /**
      * 读取数据超时时间
      * 单位为秒，默认为0，为不超时；连接成功后接收网络请求数据的超时时间设定
