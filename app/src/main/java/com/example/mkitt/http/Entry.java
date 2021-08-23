@@ -19,6 +19,7 @@ public class Entry implements Serializable {
      * data : [{"time":"2019-12-18 01:54:04","ftime":"2019-12-18 01:54:04","context":"运输中，离开【广州转运中心】，下一部门【西安转运中心】","location":"广州市"},{"time":"2019-12-17 21:43:27","ftime":"2019-12-17 21:43:27","context":"运输中，到达广州转运中心","location":"广州市"},{"time":"2019-12-17 20:20:03","ftime":"2019-12-17 20:20:03","context":"运输中，离开【广州白云区永平街道快递分部】，下一部门【广州转运中心】","location":"广州市"},{"time":"2019-12-17 17:07:28","ftime":"2019-12-17 17:07:28","context":"您的订单已被收件员揽收,【广州白云区永平街道快递分部】库存中","location":"广州市"}]
      */
 
+    public String tzw;
     private String message;
     private String nu;
     private String ischeck;

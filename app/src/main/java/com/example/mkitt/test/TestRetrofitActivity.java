@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.mkitt.R;
+import com.example.mkitt.http.Entry;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -36,26 +37,46 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class TestRetrofitActivity extends Activity {
 
+    // https://www.kuaidi100.com/query?type=yuantong&postid=11111111111
     private String TAG = "TestRetrofitActivity";
     String baseUrl = "https://www.kuaidi100.com";
 //    String baseUrl = "https://console.box.lenovo.com/v2/sso/get_ent_login_addr/";
 
     Button mButton;
+    Button mBtMerge;
+    Button mBtZip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_retrofit);
         mButton =  (Button)findViewById(R.id.button);
+        mBtMerge =  (Button)findViewById(R.id.bt_merge);
+        mBtZip =  (Button)findViewById(R.id.bt_zip);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                request(view);
+                request(view);
 //                testRxjavaMerge();
+//                testRxjavaZip();
+            }
+        });
+
+        mBtMerge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                testRxjavaMerge();
+            }
+        });
+
+        mBtZip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 testRxjavaZip();
             }
         });
+
     }
 
 
@@ -67,20 +88,21 @@ public class TestRetrofitActivity extends Activity {
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);
         HashMap<String,String> params = new HashMap<>();
-        params.put("ent_code","mrfile");
+        params.put("type","yuantong");
+        params.put("postid","11111111111");
 
-        Call<JSONObject> call = apiService.getData("query",params);
-        call.enqueue(new Callback<JSONObject>() {
+        Call<Entry> call = apiService.getData("query",params);
+        call.enqueue(new Callback<Entry>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                Log.d(TAG,"onResponse");
+            public void onResponse(Call<Entry> call, Response<Entry> response) {
+                Log.d(TAG,"onResponse: "+response.body().tzw);
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<Entry> call, Throwable t) {
                 Log.d(TAG,"onFailure "+ t.toString());
-
             }
+
         });
     }
 
