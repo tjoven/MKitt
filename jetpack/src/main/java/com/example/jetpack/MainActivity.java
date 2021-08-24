@@ -17,17 +17,18 @@ import com.example.jetpack.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "Jetpack";
-    private MyViewModel dataViewModel;;
+    public static final String TAG = "Jetpack";
+    private MyViewModel mViewModel;
     private ActivityMainBinding binding;
-    User user = new User("tianzw");
+    User user = new User("tian",18);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate");
-        dataViewModel = ViewModelProviders.of(this).get(MyViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(MyViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        binding.setUser(user);
+        binding.setViewModule(mViewModel);
+        binding.setLifecycleOwner(this);//重要!!!
         View view = binding.getRoot();
         setContentView(view);
         init();
@@ -35,12 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        dataViewModel.getData().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                binding.tvNumber.setText(integer+"_"+dataViewModel.getExtend());
-            }
-        });
+
     }
 
     @Override
@@ -62,14 +58,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onBindView() {
-        binding.buttonOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                user.setN("jing wen");
-                dataViewModel.setExtend("buttonOne");
-                dataViewModel.getData().setValue(dataViewModel.getData().getValue()+1);
-                Toast.makeText(MainActivity.this,"ActivityMainBinding",Toast.LENGTH_LONG).show();
-            }
-        });
     }
 }
