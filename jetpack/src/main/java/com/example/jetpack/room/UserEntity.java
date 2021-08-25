@@ -6,7 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class User {
+public class UserEntity {
     @PrimaryKey
     public int id;
 
@@ -17,14 +17,19 @@ public class User {
     public int age;
 
     @Ignore
-    public User(int id) {
+    public UserEntity(int id) {
         this.id = id;
     }
 
-    public User(int id, String name, int age) {
+    public UserEntity(int id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
     }
 
+    @Ignore
+    public UserEntity(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
 }

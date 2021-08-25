@@ -12,15 +12,15 @@ import androidx.room.Update;
 @Dao
 public interface UserDao {
 
-    @Query("SELECT * FROM user")
-    LiveData<List<User>> getAll();
+    @Query("SELECT * FROM UserEntity")
+    LiveData<List<UserEntity>> getAll();
 
     @Update
-    List<User> updateUser(User... users);
+    void updateUser(UserEntity... users);
 
     @Insert
-    void insertUser(User... users);
+    void insertUser(UserEntity... users);
 
     @Delete
-    void deleteUser(User... users);
+    void deleteUser(UserEntity... users);
 }
