@@ -1,5 +1,6 @@
 package com.example.jetpack.room;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.UserHolder> {
 
+    private static final String TAG = "RoomAdapter";
     List<UserEntity> users = new ArrayList<>();
 
     public RoomAdapter() {
@@ -38,6 +40,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.UserHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull UserHolder holder, int position) {
+        Log.d(TAG,"onBindViewHolder: "+position);
+        Log.d(TAG,"onBindViewHolder: "+users.get(position).toString());
         holder.binding.setUser(users.get(position));
 
     }

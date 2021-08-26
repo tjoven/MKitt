@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.jetpack.R;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public class RoomActivity extends AppCompatActivity {
 
+    private static final String TAG = "RoomActivity";
     ActivityRoomBinding mDataBinding;
     UserViewModel mViewModel;
     RoomAdapter mAdapter;
@@ -25,11 +28,13 @@ public class RoomActivity extends AppCompatActivity {
         mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         mDataBinding.setViewModel(mViewModel);
         mAdapter = new RoomAdapter();
+        mDataBinding.listView.setLayoutManager(new LinearLayoutManager(this));
         mDataBinding.listView.setAdapter(mAdapter);
 
         mViewModel.getUsers().observe(this, new Observer<List<UserEntity>>() {
             @Override
             public void onChanged(List<UserEntity> userEntities) {
+                Log.d(TAG,"onChanged: "+userEntities.toString());
                 mAdapter.setUsers(userEntities);
                 mAdapter.notifyDataSetChanged();
             }
