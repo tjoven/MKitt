@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="viewModule" type="com.example.jetpack.MyViewModel"/>
+        <variable name="mInputViewModel" type="com.example.jetpack.InputViewModel"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,5 +27,20 @@
             android:text="+1" />
 
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:hint="input"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={mInputViewModel.inputString}"
+            android:hint="hint" />
+
+
+    </LinearLayout>
 </layout>

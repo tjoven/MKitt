@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "Jetpack";
     private MyViewModel mViewModel;
+    private InputViewModel mInputViewModel;
     private ActivityMainBinding binding;
     User user = new User("tian",18);
     @Override
@@ -26,8 +27,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate");
         mViewModel = ViewModelProviders.of(this).get(MyViewModel.class);
+        mInputViewModel = ViewModelProviders.of(this).get(InputViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         binding.setViewModule(mViewModel);
+        binding.setMInputViewModel(mInputViewModel);
         binding.setLifecycleOwner(this);//重要!!!
         View view = binding.getRoot();
         setContentView(view);
@@ -58,5 +61,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onBindView() {
+        mInputViewModel.getInputString().setValue("start");
+        mInputViewModel.getInputString().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.d(TAG,"getInputString: "+s);
+                binding.textView.setText(s);
+            }
+        });
     }
 }
