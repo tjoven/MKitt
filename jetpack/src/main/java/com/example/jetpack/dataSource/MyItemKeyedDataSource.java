@@ -1,4 +1,4 @@
-package com.example.mkitt.jetpack.dataSource;
+package com.example.jetpack.dataSource;
 
 import androidx.annotation.NonNull;
 import androidx.paging.ItemKeyedDataSource;
