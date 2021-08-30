@@ -12,6 +12,10 @@ public class MyViewModel extends ViewModel {
 
     private LiveData<PagedList<Movie>> mMovieList;
 
+    public LiveData<PagedList<Movie>> getMovieList() {
+        return mMovieList;
+    }
+
     public MyViewModel() {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
