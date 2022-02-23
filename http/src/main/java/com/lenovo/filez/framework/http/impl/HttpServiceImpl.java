@@ -57,6 +57,11 @@ public class HttpServiceImpl implements HttpService {
                     public void accept(Object o)  {
                         Log.d(TAG,"accept Thread: "+Thread.currentThread().getName());
                         listener.onRequestStart();
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -74,6 +79,7 @@ public class HttpServiceImpl implements HttpService {
                         if (compositeDisposable == null){
                             compositeDisposable = new CompositeDisposable();
                             mapping.put(tag, compositeDisposable);
+                            Log.d("tzw","compositeDisposable "+tag);
                         }
                         compositeDisposable.add(d);
                     }
@@ -86,6 +92,7 @@ public class HttpServiceImpl implements HttpService {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e(TAG,"onError: "+e.toString());
                         if (listener != null) {
                             listener.onRequestError(e);
                         }
@@ -108,6 +115,8 @@ public class HttpServiceImpl implements HttpService {
 
     @Override
     public void cancelRequest(Object tag) {
+        Log.d(TAG,"cancelRequest "+tag);
+        Log.d("tzw","cancelRequest "+tag);
         if (tag == null) {
             return;
         }

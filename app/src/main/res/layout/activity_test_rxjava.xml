@@ -47,4 +47,23 @@
         android:layout_centerInParent="true"
         android:text="flatMap"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/bt_flow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="背压"/>
+
+        <Button
+            android:id="@+id/bt_back_press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="背压 取数据"/>
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -30,7 +30,7 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
     /**
      * 设置为 final， 一旦确定不允许修改
      **/
-    private final String mTag;
+    private final Object mTag;
     protected transient WeakReference<Context> mContext;
     protected transient HashMap<String, Object> mParams;
     protected transient RspListener mCallBack;
@@ -58,10 +58,9 @@ public abstract class BaseRequest implements HttpRequest, HttpListener<JSONObjec
      * 每个请求对应一个唯一的tag，方便
      *
      * @param lifeCycle 代表生命周期的东西
-     * @return 简单处理为 String
      */
-    private String generateTag(Object lifeCycle) {
-        return lifeCycle != null ? lifeCycle.toString() : TAG_DEFAULT;
+    private Object generateTag(Object lifeCycle) {
+        return lifeCycle != null ? lifeCycle : TAG_DEFAULT;
     }
 
     public RspListener getCallBack() {

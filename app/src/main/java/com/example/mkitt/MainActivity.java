@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.mkitt.http.Entry;
 import com.example.mkitt.http.TestRequest;
 import com.example.mkitt.test.TestRetrofitActivity;
+import com.example.mkitt.test.rxjava.TestRxJavaActivity;
 import com.lenovo.filez.framework.http.base.ApiHelper;
 import com.lenovo.filez.framework.http.base.RspListener;
 
@@ -48,13 +49,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 request();
+
+            }
+        });
+
+        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               cancelRequest();
             }
         });
 
         initHtml();
+    }
 
-
-
+    private void cancelRequest() {
+        ApiHelper.cancelRequestUnderTag(this);
     }
 
     private void initHtml() {
@@ -81,9 +91,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void request() {
-        Intent intent = new Intent(this, TestRetrofitActivity.class);
-        startActivity(intent);
-
         TestRequest request = new TestRequest(MainActivity.this,new RspListener<Entry>(){
 
             @Override
@@ -95,4 +102,21 @@ public class MainActivity extends AppCompatActivity {
         ApiHelper.sendRequest(request);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("tzw","onDestroy");
+
+    }
+
+    public void retrofit(View view) {
+        Intent intent = new Intent(this, TestRetrofitActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void rxjava(View view) {
+        Intent intent = new Intent(this, TestRxJavaActivity.class);
+        startActivity(intent);
+    }
 }
