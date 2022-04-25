@@ -1,3 +1,5 @@
 include ':jetpack'
 include ':app', ':http', ':lint'
 rootProject.name='MKitt'
+
+include ':image'
