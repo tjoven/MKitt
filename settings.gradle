@@ -3,3 +3,4 @@ include ':app', ':http', ':lint'
 rootProject.name='MKitt'
 
 include ':image'
+include ':task'

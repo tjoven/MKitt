@@ -41,10 +41,10 @@ public class ImageActivity extends AppCompatActivity {
                 RequestOptions options = new RequestOptions();
                 options
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+//                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+//                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .skipMemoryCache(true)
                         .override(1000,400);
                 Glide.with(ImageActivity.this)
