@@ -124,57 +124,60 @@ public class FileDownloadRequestImpl extends FileDownloadRequest {
             .doOnSubscribe(new Consumer<Disposable>() {
             @Override
             public void accept(Disposable disposable){
-                Log.d(TAG,"doOnSubscribe Thread: "+Thread.currentThread().getName());
+                Log.d(TAG,"doOnSubscribe Thread: "+Thread.currentThread().getName());//主线程
                 isDownloading = true;
                 if (listener != null) {
                     listener.onRequestStart();
                 }
             }
-        }).map(new Function<ResponseBody, InputStream>() {
-            @Override
-            public InputStream apply(ResponseBody responseBody){
-                Log.d(TAG,"map Thread: "+Thread.currentThread().getName());
-                return responseBody.byteStream();
-            }
+        })
+                .map(new Function<ResponseBody, InputStream>() {
+                    @Override
+                    public InputStream apply(ResponseBody responseBody){
+                        Log.d(TAG,"map Thread: "+Thread.currentThread().getName());//工作线程
+                        return responseBody.byteStream();
+                    }
         })
 //                .subscribeOn(Schedulers.io())
-          .observeOn(Schedulers.io()).doOnNext(new Consumer<InputStream>() {
-            @Override
-            public void accept(InputStream inputStream) {
-                Log.d(TAG,"doOnNext Thread: "+Thread.currentThread().getName());
-                saveFile(inputStream);
-            }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<InputStream>() {
+          .observeOn(Schedulers.io())
+                .doOnNext(new Consumer<InputStream>() {
+                    @Override
+                    public void accept(InputStream inputStream) {//工作线程
+                        Log.d(TAG,"doOnNext Thread: "+Thread.currentThread().getName());
+                        saveFile(inputStream);
+                    }
+        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<InputStream>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
 
-            @Override
-            public void onSubscribe(Disposable d) {
-                disposable = d;
-            }
+                    @Override
+                    public void onNext(InputStream o) {//主线程
+                        complete = true;
+                        isDownloading = false;
+                        if (listener == null) {
+                            return;
+                        }
 
-            @Override
-            public void onNext(InputStream o) {
-                complete = true;
-                isDownloading = false;
-                if (listener == null) {
-                    return;
-                }
+                        if (callback != null && callback.isComplete()) {
+                            listener.onRequestResult(fileName);
+                        } else {
+                            listener.onRequestError(new Exception("File not download complete"));
+                        }
+                    }
 
-                if (callback != null && callback.isComplete()) {
-                    listener.onRequestResult(fileName);
-                } else {
-                    listener.onRequestError(new Exception("File not download complete"));
-                }
-            }
+                    @Override
+                    public void onError(Throwable t) {
+                        notifyError(t);
+                    }
 
-            @Override
-            public void onError(Throwable t) {
-                notifyError(t);
-            }
-
-            @Override
-            public void onComplete() {
-                //do nothing
-            }
+                    @Override
+                    public void onComplete() {
+                        //do nothing
+                    }
         });
     }
 
