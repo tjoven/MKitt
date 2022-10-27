@@ -18,7 +18,9 @@
         <activity
             android:name=".test.launchModel.SingleInstanceActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".test.launchModel.StandardTwoActivity" />
+        <activity android:name=".test.launchModel.StandardTwoActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity="test.taskAffinity"/>
         <activity android:name=".test.launchModel.StandardOneActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

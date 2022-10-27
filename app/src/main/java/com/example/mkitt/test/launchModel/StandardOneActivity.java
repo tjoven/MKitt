@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-public class StandardOneActivity extends AppCompatActivity {
+public class StandardOneActivity extends BaseActivity {
 
 
     @Override

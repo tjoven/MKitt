@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.example.mkitt.R;
 
-public class StandardTwoActivity extends AppCompatActivity {
+public class StandardTwoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
