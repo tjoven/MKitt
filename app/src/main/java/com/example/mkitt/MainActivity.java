@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.mkitt.http.Entry;
 import com.example.mkitt.http.TestRequest;
-import com.example.mkitt.test.TestRetrofitActivity;
+import com.example.mkitt.test.rxjava.TestRetrofitActivity;
 import com.example.mkitt.test.rxjava.TestRxJavaActivity;
 import com.lenovo.filez.framework.http.base.ApiHelper;
 import com.lenovo.filez.framework.http.base.RspListener;
@@ -48,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG,"onCreate");
+        Log.d(TAG,"dd");
+
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override

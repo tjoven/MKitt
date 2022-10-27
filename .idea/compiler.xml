@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.8">
+    <bytecodeTargetLevel target="1.7">
       <module name="checks" target="1.7" />
+      <module name="lintrule" target="1.7" />
+      <module name="MKitt.app" target="1.8" />
+      <module name="MKitt.download" target="1.8" />
+      <module name="MKitt.http" target="1.8" />
+      <module name="MKitt.image" target="1.8" />
+      <module name="MKitt.jetpack" target="1.8" />
+      <module name="MKitt.lint" target="1.8" />
+      <module name="MKitt.task" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

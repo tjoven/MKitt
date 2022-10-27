@@ -5,7 +5,7 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="delegatedBuild" value="false" />
-        <option name="testRunner" value="GRADLE" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/image" />
             <option value="$PROJECT_DIR$/jetpack" />
             <option value="$PROJECT_DIR$/lint" />
+            <option value="$PROJECT_DIR$/lintrule" />
             <option value="$PROJECT_DIR$/task" />
           </set>
         </option>

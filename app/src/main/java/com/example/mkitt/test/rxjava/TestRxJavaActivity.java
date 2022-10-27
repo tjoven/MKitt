@@ -10,13 +10,9 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 
 import com.example.mkitt.R;
-import com.example.mkitt.http.Entry;
-import com.example.mkitt.test.ApiService;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
-
-import java.util.HashMap;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -33,11 +29,6 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.example.mkitt.test;
+package com.example.mkitt.test.rxjava;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.mkitt.http.Entry;

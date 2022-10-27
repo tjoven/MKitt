@@ -1,14 +1,13 @@
-apply plugin: 'com.android.application'
-apply plugin: "com.rocketzly.lintPlugin"
+apply plugin: 'com.android.library'
+//apply plugin: "com.rocketzly.lintPlugin"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 32
     buildToolsVersion "30.0.2"
-
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
 
@@ -16,9 +15,6 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
-    lintConfig{
-        baseline = true
-    }
 
     buildTypes {
         release {
@@ -27,7 +23,9 @@ android {
         }
     }
 
+
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -36,4 +34,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+//    lintPublish project(':lintrule')
+    lintChecks project(':lintrule')
+
 }
+
+

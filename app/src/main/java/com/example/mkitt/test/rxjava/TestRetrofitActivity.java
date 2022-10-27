@@ -1,4 +1,4 @@
-package com.example.mkitt.test;
+package com.example.mkitt.test.rxjava;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -6,31 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 
-import androidx.annotation.NonNull;
-
-import com.alibaba.fastjson.JSONObject;
 import com.example.mkitt.R;
 import com.example.mkitt.http.Entry;
 
-import java.lang.reflect.Proxy;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
